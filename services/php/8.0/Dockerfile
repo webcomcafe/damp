@@ -12,6 +12,12 @@ RUN apt-get update \
 
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
-COPY ./php.ini /usr/local/etc/php/php.ini
+COPY ./php.ini "$PHP_INI_DIR/php.ini"
 
-COPY ./00-dev.ini /usr/local/etc/php/conf.d/00-dev.ini
+COPY ./00-dev.ini "$PHP_INI_DIR/conf.d/00-dev.ini"
+
+# Permissões
+RUN chmod -R 0777 /var/www
+
+# Set working directory
+WORKDIR /var/www

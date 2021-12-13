@@ -8,6 +8,7 @@ services:
       - 80:80
       - 443:443
     volumes:
+      - ./services/apache2/certs:/usr/local/apache2/certs
       - ./services/apache2/vhosts:/usr/local/apache2/vhosts
       - ${WEBROOT}:/var/www
     networks:
@@ -39,7 +40,8 @@ services:
       - app-net
 
   php80:
-    build: ./services/php/8.0
+    build: 
+      context: ./services/php/8.0
     container_name: php80
     volumes:
       - ${WEBROOT}:/var/www/
@@ -47,7 +49,8 @@ services:
       - app-net  
 
   php81:
-    build: ./services/php/8.1
+    build: 
+      context: ./services/php/8.1
     container_name: php81
     volumes:
       - ${WEBROOT}:/var/www/

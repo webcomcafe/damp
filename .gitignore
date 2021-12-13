@@ -1,3 +1,4 @@
 /htdocs/**
+/services/apache2/certs
 /services/apache2/vhosts/**
 /services/mariadb/data/
