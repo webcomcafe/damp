@@ -1,0 +1,59 @@
+version: '3.9'
+
+services:
+  httpd:
+    build: ./services/apache2
+    container_name: apache2
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./services/apache2/vhosts:/usr/local/apache2/vhosts
+      - ${WEBROOT}:/var/www
+    networks:
+      - app-net
+    depends_on:
+      - db
+      - php81
+      - php80
+      - php70
+
+  db:
+    build: ./services/mariadb
+    container_name: maria
+    volumes:
+      - ./services/mariadb/data:/var/lib/mysql
+    environment:
+      - MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}
+    ports:
+      - '${MARIADB_PORT}:3306'
+    networks:
+      - app-net
+
+  php70:
+    build: ./services/php/7.0
+    container_name: php70
+    volumes:
+      - ${WEBROOT}:/var/www/
+    networks:
+      - app-net
+
+  php80:
+    build: ./services/php/8.0
+    container_name: php80
+    volumes:
+      - ${WEBROOT}:/var/www/
+    networks:
+      - app-net  
+
+  php81:
+    build: ./services/php/8.1
+    container_name: php81
+    volumes:
+      - ${WEBROOT}:/var/www/
+    networks:
+      - app-net     
+
+networks:
+  app-net:
+    driver: bridge

@@ -1,0 +1,3 @@
+/htdocs/**
+/services/apache2/vhosts/**
+/services/mariadb/data/
