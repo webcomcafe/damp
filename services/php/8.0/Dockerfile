@@ -1,5 +1,8 @@
 FROM php:8.0.13-fpm
 
+ARG user
+ARG uid
+
 RUN apt-get update \
     && apt-get install -y git iputils-ping libfreetype6-dev libjpeg62-turbo-dev libpq-dev libzip-dev zip \
     && pecl install xdebug \
@@ -17,7 +20,11 @@ COPY ./php.ini "$PHP_INI_DIR/php.ini"
 COPY ./00-dev.ini "$PHP_INI_DIR/conf.d/00-dev.ini"
 
 # Permissões
-RUN chmod -R 0777 /var/www
+RUN useradd -G www-data,root -u $uid -d /home/$user $user
+RUN mkdir -p /home/$user/.composer && \
+    chown -R $user:$user /home/$user
 
 # Set working directory
 WORKDIR /var/www
+
+USER $user

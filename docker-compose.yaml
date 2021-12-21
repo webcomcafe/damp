@@ -42,6 +42,9 @@ services:
   php80:
     build: 
       context: ./services/php/8.0
+      args:
+        user: ${USER}
+        uid: ${UID}
     container_name: php80
     volumes:
       - ${WEBROOT}:/var/www/
